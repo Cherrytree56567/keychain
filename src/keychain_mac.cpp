@@ -241,8 +241,7 @@ void setPassword(const std::string &package, const std::string &service,
 
     CFDictionaryAddValue(query.get(), kSecValueData, cfPassword.get());
     if (detail != SecurityDetail::NoPassword) {
-        CFDictionaryAddValue(
-            attributesToUpdate.get(), kSecAttrAccessControl, accessControl);
+        CFDictionaryAddValue(query.get(), kSecAttrAccessControl, accessControl);
     }
     
     OSStatus status = SecItemAdd(query.get(), NULL);
