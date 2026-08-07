@@ -179,8 +179,35 @@ namespace keychain {
 
 void setPassword(const std::string &package, const std::string &service,
                  const std::string &user, const std::string &password,
-                 Error &err) {
+                 Error &err, SecurityDetail detail) {
     err = Error{};
+
+    /*
+     * Found on MS Docs
+     * https://learn.microsoft.com/en-us/uwp/api/windows.security.credentials.ui.userconsentverifier?view=winrt-22621
+     * 
+     * This needs a window so it wouldn't work
+    */
+    /*
+    HWND hwnd;
+    winrt::check_hresult(m_inner->as<::IWindowNative>()->get_WindowHandle(&hwnd));
+
+    auto interop = winrt::get_activation_factory<winrt::Windows::Security::Credentials::UI::UserConsentVerifier, ::IUserConsentVerifierInterop>();
+    auto consentResult =
+        co_await winrt::capture<winrt::Windows::Foundation::IAsyncOperation<winrt::Windows::Security::Credentials::UI::UserConsentVerificationResult>>(
+            interop, &::IUserConsentVerifierInterop::RequestVerificationForWindowAsync, hwnd, reinterpret_cast<HSTRING>(winrt::get_abi(userMessage))));
+
+    switch (consentResult)
+    {
+        case winrt::Windows::Security::Credentials::UI::UserConsentVerificationResult::Verified:
+            break;
+        default:
+            err.type = ErrorType::GenericError;
+            err.message = "Authentication device is currently unavailable.";
+            err.code = -1;
+            break;
+    }*/
+
     auto target_name = makeTargetName(package, service, user, err);
     if (err) {
         return;

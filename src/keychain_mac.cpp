@@ -220,10 +220,16 @@ void setPassword(const std::string &package, const std::string &service,
 
     CFErrorRef cfErr = nullptr;
 
+    CFOptionFlags acl = kSecAccessControlUserPresence;
+
+    if (detail == SecurityDetail::SecureBio) {
+        acl = kSecAccessControlBiometryCurrentSet;
+    }
+
     SecAccessControlRef accessControl = SecAccessControlCreateWithFlags(
         kCFAllocatorDefault,
         kSecAttrAccessibleWhenUnlockedThisDeviceOnly,
-        kSecAccessControlUserPresence,
+        acl,
         &cfErr
     );
 
