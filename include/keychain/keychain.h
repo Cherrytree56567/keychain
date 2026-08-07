@@ -51,6 +51,16 @@ namespace keychain {
 
 struct Error;
 
+/*
+ * Used to specify if a password should be accessable
+ * via Biometric Info, Password, or No Password
+*/
+enum class SecurityDetail {
+    NoPassword, // Doesnt require a password
+    Secure, // Requires Password or Biometric Info
+    SecureBio, // Requires Biometric Info
+};
+
 /*! \brief Retrieve a password
  *
  * \param package, service, user Used to identify the password to get
@@ -71,7 +81,7 @@ std::string getPassword(const std::string &package, const std::string &service,
  */
 void setPassword(const std::string &package, const std::string &service,
                  const std::string &user, const std::string &password,
-                 Error &err);
+                 Error &err, SecurityDetail detail = SecurityDetail::NoPassword);
 
 /*! \brief Insert or update a password
  *

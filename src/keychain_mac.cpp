@@ -209,7 +209,7 @@ namespace keychain {
 
 void setPassword(const std::string &package, const std::string &service,
                  const std::string &user, const std::string &password,
-                 Error &err) {
+                 Error &err, SecurityDetail detail) {
     err = Error{};
     const auto serviceName = makeServiceName(package, service);
     const auto cfPassword = createCFData(password, err);
@@ -217,6 +217,21 @@ void setPassword(const std::string &package, const std::string &service,
 
     if (err.type != keychain::ErrorType::NoError)
         return;
+
+    CFErrorRef cfErr = nullptr;
+
+    SecAccessControlRef accessControl = SecAccessControlCreateWithFlags(
+        kCFAllocatorDefault,
+        kSecAttrAccessibleWhenUnlockedThisDeviceOnly,
+        kSecAccessControlUserPresence,
+        &cfErr
+    );
+
+    if (cfErr != nullptr) {
+        setGenericError(err, "Failed to create Password Access Control.");
+        CFRelease(cfErr);
+        return;
+    }
 
     CFDictionaryAddValue(query.get(), kSecValueData, cfPassword.get());
     OSStatus status = SecItemAdd(query.get(), NULL);
@@ -231,6 +246,10 @@ void setPassword(const std::string &package, const std::string &service,
 
         CFDictionaryAddValue(
             attributesToUpdate.get(), kSecValueData, cfPassword.get());
+        if (detail != SecurityDetail::NoPassword) {
+            CFDictionaryAddValue(
+                attributesToUpdate.get(), kSecAttrAccessControl, accessControl);
+        }
         status = SecItemUpdate(query.get(), attributesToUpdate.get());
     }
 
