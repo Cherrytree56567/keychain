@@ -25,7 +25,18 @@ target_compile_options(${PROJECT_NAME}
         $<$<CXX_COMPILER_ID:MSVC>:/W2 /WX>
         $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -pedantic -Werror>)
 
-if (WIN32)
+if (ANDROID)
+    target_compile_definitions(${PROJECT_NAME}
+        PUBLIC
+            -DKEYCHAIN_ANDROID=1)
+    target_sources(${PROJECT_NAME}
+        PRIVATE
+            "src/keychain_android.cpp")
+    find_library(LOG_LIBRARY log REQUIRED)
+    target_link_libraries(${PROJECT_NAME}
+        PRIVATE
+            ${LOG_LIBRARY})
+elseif (WIN32)
     target_compile_definitions(${PROJECT_NAME}
         PUBLIC
             -DKEYCHAIN_WINDOWS=1)
