@@ -35,6 +35,11 @@ namespace keychain {
 void setPassword(const std::string &package, const std::string &service,
                  const std::string &user, const std::string &password,
                  Error &err) {
+    (void)package;
+    (void)service;
+    (void)user;
+    (void)password;
+    (void)err;
     /*
      * TODO: this
     */
@@ -42,6 +47,10 @@ void setPassword(const std::string &package, const std::string &service,
 
 std::string getPassword(const std::string &package, const std::string &service,
                         const std::string &user, Error &err) {
+    (void)package;
+    (void)service;
+    (void)user;
+    (void)err;
     /*
      * TODO: This
     */
@@ -51,12 +60,17 @@ std::string getPassword(const std::string &package, const std::string &service,
 
 void deletePassword(const std::string &package, const std::string &service,
                     const std::string &user, Error &err) {
+    (void)package;
+    (void)service;
+    (void)user;
+    (void)err;
     /*
      * TODO: This
     */
 }
 
 bool isAvailable(Error &err) {
+    (void)err;
     /*
      * TODO: This
     */
