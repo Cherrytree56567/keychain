@@ -241,6 +241,10 @@ void setPassword(const std::string &package, const std::string &service,
     }
 
     CFDictionaryAddValue(query.get(), kSecValueData, cfPassword.get());
+    if (detail != SecurityDetail::NoPassword) {
+        CFDictionaryAddValue(query.get(), kSecAttrAccessControl, accessControl);
+    }
+    
     OSStatus status = SecItemAdd(query.get(), NULL);
 
     if (status == errSecDuplicateItem) {
@@ -253,10 +257,7 @@ void setPassword(const std::string &package, const std::string &service,
 
         CFDictionaryAddValue(
             attributesToUpdate.get(), kSecValueData, cfPassword.get());
-        if (detail != SecurityDetail::NoPassword) {
-            CFDictionaryAddValue(
-                attributesToUpdate.get(), kSecAttrAccessControl, accessControl);
-        }
+        
         status = SecItemUpdate(query.get(), attributesToUpdate.get());
     }
 
