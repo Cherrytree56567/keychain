@@ -40,6 +40,7 @@ void setPassword(const std::string &package, const std::string &service,
     (void)user;
     (void)password;
     (void)err;
+    (void)detail;
     /*
      * TODO: this
     */
