@@ -34,7 +34,7 @@ namespace keychain {
 
 void setPassword(const std::string &package, const std::string &service,
                  const std::string &user, const std::string &password,
-                 Error &err) {
+                 Error &err, SecurityDetail detail) {
     (void)package;
     (void)service;
     (void)user;
