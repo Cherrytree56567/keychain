@@ -83,11 +83,13 @@ namespace keychain {
 
 void setPassword(const std::string &package, const std::string &service,
                  const std::string &user, const std::string &password,
-                 Error &err) {
+                 Error &err, SecurityDetail detail) {
     err = Error{};
     const auto schema = makeSchema(package);
     const auto label = makeLabel(service, user);
     GError *error = NULL;
+
+    (void)detail;
 
     secret_password_store_sync(&schema,
                                SECRET_COLLECTION_DEFAULT,
