@@ -74,8 +74,8 @@ else () # assuming Linux
             "src/keychain_linux.cpp")
 
     find_package(PkgConfig REQUIRED)
-    pkg_check_modules(GLIB2 IMPORTED_TARGET glib-2.0)
-    pkg_check_modules(LIBSECRET IMPORTED_TARGET libsecret-1)
+    pkg_check_modules(GLIB2 REQUIRED IMPORTED_TARGET glib-2.0)
+    pkg_check_modules(LIBSECRET REQUIRED IMPORTED_TARGET libsecret-1)
 
     target_link_libraries(${PROJECT_NAME}
         PRIVATE
