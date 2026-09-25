@@ -25,7 +25,7 @@ int main() {
     const std::string service = "usage-example";
     const std::string user = "Admin";
 
-    keychain::setPassword(package, service, user, "hunter2", error);
+    keychain::setPassword(package, service, user, "hunter2", error, SecurityDetail::NoPassword);
     if (error) {
         std::cout << error.message << std::endl;
         return 1;
